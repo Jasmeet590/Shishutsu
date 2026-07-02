@@ -17,13 +17,15 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-#basic route
+#Index page
 Route::get('/', "App\Http\Controllers\AppController@index");
 
+//party routes
 Route::get('/add-party', "App\Http\Controllers\partyController@addparty")->name('add-party');
+Route::get('/manage-parties', "App\Http\Controllers\partyController@index")->name('manage-parties');
 
-#route with parameter
-Route::get('/about/{parameter}', "App\Http\Controllers\AppController@about");
 
-#route with optional parameter
-Route::get('/service/{parameter?}', "App\Http\Controllers\AppController@service");
+//GST bill routes
+Route::get('/add-gst-bill', "App\Http\Controllers\GstBillController@addGstBill")->name('add-gst-bill');
+Route::get('/manage-gst-bill', "App\Http\Controllers\GstBillController@index")->name('manage-gst-bill');
+Route::get('/print-gst-bill', "App\Http\Controllers\GstBillController@print")->name('print-gst-bill');

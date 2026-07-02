@@ -27,11 +27,11 @@
               <div class="collapse" id="sidebarEcommerce">
                 <ul class="nav-second-level">
                   <li>
-                    <a href="{{url('/add-party')}}"><i data-feather="plus" class="pr-0 mr-1"></i>Add
+                    <a href="{{ route('add-party') }}"><i data-feather="plus" class="pr-0 mr-1"></i>Add
                       New</a>
                   </li>
                   <li>
-                    <a href="manageParties.html"><i data-feather="list" class="pr-0 mr-1"></i>Manage
+                    <a href="{{ route('manage-parties') }}"><i data-feather="list" class="pr-0 mr-1"></i>Manage
                       Parties</a>
                   </li>
                 </ul>
@@ -46,11 +46,11 @@
               <div class="collapse" id="sidebarCrm">
                 <ul class="nav-second-level">
                   <li>
-                    <a href="gstbill.html"><i data-feather="plus" class="pr-0 mr-1"></i>Create
+                    <a href="{{ route('add-gst-bill') }}"><i data-feather="plus" class="pr-0 mr-1"></i>Create
                       bill</a>
                   </li>
                   <li>
-                    <a href="managebills.html"><i data-feather="list" class="pr-0 mr-1"></i>Manage all
+                    <a href="{{ route('manage-gst-bill') }}"><i data-feather="list" class="pr-0 mr-1"></i>Manage all
                       bills</a>
                   </li>
                 </ul>

@@ -10,4 +10,12 @@ class PartyController extends Controller
     {
         return view('party.add');
     }
+
+        public function Index()
+    {
+        return view('party.manage');
+    }
+
+
+
 }
