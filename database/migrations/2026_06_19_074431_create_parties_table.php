@@ -20,6 +20,7 @@ class CreatePartiesTable extends Migration
             $table->string("phone_no", 15)->nullable();
             $table->text("address")->nullable();
             $table->string("account_holder_name")->nullable();
+             $table->string("account_no")->nullable();
             $table->string("bank_name")->nullable();
             $table->string("ifsc_code")->nullable();
             $table->text("branch_address")->nullable();

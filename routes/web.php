@@ -22,6 +22,7 @@ Route::get('/', "App\Http\Controllers\AppController@index");
 
 //party routes
 Route::get('/add-party', "App\Http\Controllers\partyController@addparty")->name('add-party');
+Route::post('/create-party', "App\Http\Controllers\partyController@createparty")->name('create-party');
 Route::get('/manage-parties', "App\Http\Controllers\partyController@index")->name('manage-parties');
 
 
