@@ -14,7 +14,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card-box">
-                        <a href="addclient.html" class="btn btn-sm btn-blue waves-effect waves-light float-right">
+                        <a href="{{ route('add-party') }}" class="btn btn-sm btn-blue waves-effect waves-light float-right">
                             <i class="mdi mdi-plus-circle"></i> Add Client
                         </a>
                         <h4 class="header-title mb-4 text-uppercase">Manage Parties</h4>
@@ -44,39 +44,53 @@
                                     <th>
                                         S.No.
                                     </th>
-                                    <th>Name</th>
-                                    <th>Phone/Email</th>
+                                    <th>Client Type</th>
+                                    <th>Client Info</th>
+                                    <th>Bank Details</th>
                                     <th>Address</th>
-                                    <th>TIN No.</th>
-                                    <th>Created On</th>
+                                    <th>Created At</th>
                                     <th class="hidden-sm">Action</th>
                                 </tr>
                             </thead>
 
                             <tbody>
+                                @if(count($parties))
+                                @foreach($parties as $index=>$party)
                                 <tr>
-                                    <td><b>#1256</b></td>
+                                    <td><b>{{ $index + 1 }}</b></td>
                                     <td>
-                                        John Doe
+                                        @if($party->party_type == 'client')
+                                        <span class="badge badge-success">{{ $party->party_type }}</span>
+                                        @elseif($party->party_type == 'vendor')
+                                        <span class="badge badge-primary">{{ $party->party_type }}</span>
+                                        @elseif($party->party_type == 'employee')
+                                        <span class="badge badge-info">{{ $party->party_type }}</span>
+                                        @endif
                                     </td>
 
                                     <td>
                                         <ul class="list-unstyled">
-                                            <li><b>Phone :</b><span> 9865324085</span></li>
-                                            <li><b>Email :</b> <span> absd@gmail.com</span></li>
+                                            <li><b>Name :</b> <span> {{ $party->full_name }}</span></li>
+                                            <li><b>Phone :</b><span> {{ $party->phone_no }}</span></li>
+                                        </ul>
+                                    </td>
+
+                                     <td>
+                                        <ul class="list-unstyled">
+                                            <li><b>Account Holder Name :</b> <span> {{ $party->account_holder_name }}</span></li>
+                                            <li><b>Bank Name :</b> <span> {{ $party->bank_name }}</span></li>
+                                            <li><b>Account Number :</b> <span> {{ $party->account_no }}</span></li>
+                                            <li><b>ISFC Code :</b> <span> {{ $party->ifsc_code }}</span></li>
+                                            <li><b>Branch Address :</b> <span> {{ $party->branch_address }}</span></li>
                                         </ul>
                                     </td>
 
                                     <td>
-                                        Vyash colony
+                                        {{ $party->address }}
                                     </td>
 
                                     <td>
-                                        64582
-                                    </td>
-
-                                    <td>
-                                        12/02/2012
+                                       {{ $party->created_at }}
                                     </td>
 
                                     <td>
@@ -86,7 +100,7 @@
                                                 data-toggle="dropdown" aria-expanded="false"><i
                                                     class="mdi mdi-dots-horizontal"></i></a>
                                             <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="#"><i
+                                                <a class="dropdown-item" href="{{ route('edit-party', ['id' => $party->id]) }}"><i
                                                         class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Edit</a>
                                                 <a class="dropdown-item" href="#"><i
                                                         class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Delete</a>
@@ -94,6 +108,8 @@
                                         </div>
                                     </td>
                                 </tr>
+                                @endforeach
+                                @endif
                             </tbody>
                         </table>
 

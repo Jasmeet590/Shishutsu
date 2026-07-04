@@ -9,14 +9,19 @@ use Illuminate\Support\Facades\Vaildator;
 
 class PartyController extends Controller
 {
-    public function addparty()
+    public function addParty()
     {
         return view('party.add');
     }
 
     public function Index()
     {
-        return view('party.manage');
+        //$parties = Party::all();
+
+        //Getting required columns only
+        $parties = Party::select('id', 'party_type', 'full_name', 'phone_no', 'address', 'account_holder_name', 'account_no', 'bank_name', 'ifsc_code', 'branch_address', 'created_at')->get();
+
+        return view('party.manage', compact('parties'));
     }
 
      
@@ -24,8 +29,17 @@ class PartyController extends Controller
     {
 
         $request->validate([
-          'full_name'=>'required',
-          'party_type'=>'required'
+          'full_name'=>'required|string|min:2|max:20',
+          'party_type'=>'required',
+          'phone_no'=>'required|regex:/^[0-9]{10}$/',
+          'address'=>'required|max:255',
+
+          'account_holder_name'=>'required|min:2|max:20',
+          'account_no'=>'required|numeric',
+          'bank_name'=>'required|max:20',
+          'ifsc_code'=>'required|max:30',
+          'branch_address'=>'required|max:20',
+
         ]);
 
          $formData = $request->all();
@@ -40,6 +54,13 @@ class PartyController extends Controller
 
          return redirect()->route('add-party')->with('success', 'Party created successfully');
 
+    }
+
+
+    public function editParty($id)
+    {
+        $data['party'] = Party::find($id);
+        return view('party.edit', $data);
     }
 
 

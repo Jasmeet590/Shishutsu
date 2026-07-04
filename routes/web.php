@@ -21,9 +21,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', "App\Http\Controllers\AppController@index");
 
 //party routes
-Route::get('/add-party', "App\Http\Controllers\partyController@addparty")->name('add-party');
-Route::post('/create-party', "App\Http\Controllers\partyController@createparty")->name('create-party');
+Route::get('/add-party', "App\Http\Controllers\partyController@addParty")->name('add-party');
+Route::post('/create-party', "App\Http\Controllers\partyController@createParty")->name('create-party');
 Route::get('/manage-parties', "App\Http\Controllers\partyController@index")->name('manage-parties');
+Route::get('/edit-party/{id}', "App\Http\Controllers\partyController@editParty")->name('edit-party');
 
 
 //GST bill routes

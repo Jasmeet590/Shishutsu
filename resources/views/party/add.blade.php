@@ -115,7 +115,7 @@
 
                             
                                             <div class="col-md-12">
-                                                <label for="validationCustom02">Branch</label>
+                                                <label for="validationCustom02">Branch Address</label>
                                                 <input type="text" name="branch_address" class="form-control border-bottom " id="validationCustom02" placeholder="Enter Branch">
                                             </div>
                                         </div>
