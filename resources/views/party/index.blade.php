@@ -13,6 +13,7 @@
             <!-- end page title -->
             <div class="row">
                 <div class="col-12">
+                     @include('include.alert')
                     <div class="card-box">
                         <a href="{{ route('add-party') }}" class="btn btn-sm btn-blue waves-effect waves-light float-right">
                             <i class="mdi mdi-plus-circle"></i> Add Client
@@ -102,8 +103,13 @@
                                             <div class="dropdown-menu dropdown-menu-right">
                                                 <a class="dropdown-item" href="{{ route('edit-party', ['id' => $party->id]) }}"><i
                                                         class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Edit</a>
-                                                <a class="dropdown-item" href="#"><i
-                                                        class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Delete</a>
+                                                <!-- <a class="dropdown-item" href="{{ route('delete-party', ['id' => $party->id]) }}" onclick="return confirm('Are you sure you want to delete this party?')"><i
+                                                        class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Delete</a> -->
+                                                        <form action="{{ route('delete-party', ['id' => $party->id]) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this party?')">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="dropdown-item"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Delete</button>
+                                                        </form>
                                             </div>
                                         </div>
                                     </td>

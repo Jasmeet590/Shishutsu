@@ -23,10 +23,11 @@
 
                     <h4 class="header-title text-uppercase"> Basic Info</h4>
                     <hr>
-                    <form class="needs-validation" method="post" action="">
+                    <form class="needs-validation" method="post" action="{{ route('update-party') }}">
                         @csrf
                         <!--To pass a put request-->
                         @method('PUT')
+                        <input type="hidden" name="party_id" value="{{ $party->id }}">
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group mb-3">
