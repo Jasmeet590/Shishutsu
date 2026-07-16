@@ -32,5 +32,10 @@ Route::delete('/delete-party/{id}', "App\Http\Controllers\partyController@delete
 //GST bill routes
 Route::get('/add-gst-bill', "App\Http\Controllers\GstBillController@addGstBill")->name('add-gst-bill');
 Route::get('/manage-gst-bill', "App\Http\Controllers\GstBillController@index")->name('manage-gst-bill');
-Route::get('/print-gst-bill', "App\Http\Controllers\GstBillController@print")->name('print-gst-bill');
 Route::post('/create-gst-bill', "App\Http\Controllers\GstBillController@createGstBill")->name('create-gst-bill');
+Route::get('/print-gst-bill/{id}', "App\Http\Controllers\GstBillController@print")->name('print-gst-bill');
+
+
+
+//soft delete routes
+Route::get('/delete/{table}{id}', "App\Http\Controllers\AppController@delete")->name('delete');

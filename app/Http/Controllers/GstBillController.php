@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Models\GstBill;
 use App\Models\Party;
 
 class GstBillController extends Controller
@@ -18,13 +20,15 @@ class GstBillController extends Controller
 
    public function index()
     {
-        return view('gst-bill.manage');
+        $bills = GstBill::with('party')->where('is_deleted', 0)->orderBy('invoice_date', 'desc')->get();
+        return view('gst-bill.manage', compact('bills'));
     }
 
 
-   public function print()
+   public function print($id)
     {
-        return view('gst-bill.print');
+        $bill = GstBill::findOrFail($id);
+        return view('gst-bill.print', compact('bill'));
     }
 
 
@@ -32,19 +36,29 @@ class GstBillController extends Controller
     {
         // Validate the request data
         $validatedData = $request->validate([
-            'party_name' => 'required|string|max:255',
-            'party_address' => 'required|string|max:255',
-            'party_gst_number' => 'required|string|max:15',
-            'invoice_number' => 'required|string|max:50',
+            'party_id' => 'required|exists:parties,id',
             'invoice_date' => 'required|date',
+            'invoice_number' => 'required|string|max:50',
             'item_description' => 'required|string|max:255',
-            'item_quantity' => 'required|integer|min:1',
-            'item_price' => 'required|numeric|min:0',
+            'total_amount' => 'required|numeric|min:0',
+            'cgst_rate' => 'nullable|min:0|max:100',
+            'cgst_amount' => 'numeric|min:0',
+            'sgst_rate' => 'nullable|min:0|max:100',
+            'sgst_amount' => 'numeric|min:0',
+            'igst_rate' => 'nullable|min:0|max:100',
+            'igst_amount' => 'numeric|min:0',
+            'tax_amount' => 'required|numeric|min:0',
+            'net_amount' => 'required|numeric|min:0'
         ]);
+
+        $data = $request->all();
+
+        unset($data['_token']);
+        GstBill::create($data);
 
         // Process the validated data (e.g., save to database, generate invoice, etc.)
         // For demonstration purposes, we'll just return a success message.
-        return redirect()->back()->with('success', 'GST Bill created successfully!');
+        return redirect()->route('manage-gst-bill')->with('success', 'GST Bill created successfully!');
     } 
 
 

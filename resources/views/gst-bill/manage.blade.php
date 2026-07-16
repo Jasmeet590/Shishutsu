@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col">
                     <div class="page-title-box">
-                        <h2 class="page-title font-weight-bold text-uppercase">Manage Bills</h2>
+                        <h2 class="page-title font-weight-bold text-uppercase">Manage GST Bills</h2>
                     </div>
                 </div>
 
@@ -14,11 +14,12 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card-box">
-                        <a href="{{ route('print-gst-bill') }}" class="btn btn-sm btn-blue waves-effect waves-light float-right">
+                        <a href="{{ route('add-gst-bill') }}" class="btn btn-sm btn-blue waves-effect waves-light float-right">
                             <i class="mdi mdi-plus-circle"></i> Create New Bill
                         </a>
-                        <h4 class="header-title mb-4 text-uppercase">Manage Bills</h4>
+                        <h4 class="header-title mb-4 text-uppercase">Manage GST Bills</h4>
                         <div class="row">
+                            @include('include.alert')
                             <div class="col-sm-12 col-md-10">
                                 <div class="dataTables_length" id="alternative-page-datatable_length"><label>Show
                                         <select name="alternative-page-datatable_length"
@@ -53,26 +54,28 @@
                             </thead>
 
                             <tbody>
+                                @if(count($bills))
+                                @foreach($bills as $index=>$bill)
                                 <tr>
-                                    <td><b>#1256</b></td>
+                                    <td><b>{{ $index + 1 }}</b></td>
                                     <td>
-                                        #5
+                                        {{ "B_".$bill->invoice_number }}
                                     </td>
 
                                     <td>
-                                        Joh Doe
+                                        {{ $bill->party->full_name }}
                                     </td>
 
                                     <td>
                                         <ul class="list-unstyled">
-                                            <li><b>Total Amount :</b><span> 555</span></li>
-                                            <li><b>TAX :</b><span> 55</span></li>
-                                            <li><b>Net Amount :</b><span> 55</span></li>
+                                            <li><b>Total Amount :</b><span> {{ $bill->total_amount }}</span></li>
+                                            <li><b>TAX :</b><span> {{ $bill->tax_amount }}</span></li>
+                                            <li><b>Net Amount :</b><span> {{ $bill->net_amount }}</span></li>
                                         </ul>
                                     </td>
 
                                     <td>
-                                        01/09/2023
+                                        {{ $bill->invoice_date }}
                                     </td>
                                     <td>
                                         <div class="btn-group dropdown">
@@ -81,18 +84,19 @@
                                                 data-toggle="dropdown" aria-expanded="false"><i
                                                     class="mdi mdi-dots-horizontal"></i></a>
                                             <div class="dropdown-menu dropdown-menu-right">
-                                                <button type="button" class="dropdown-item" data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModal"><i
-                                                        class="mdi mdi-alert-octagon-outline mr-2 text-muted font-18 vertical-middle"></i>Detail</button>
-                                                <a class="dropdown-item" href="#"><i
-                                                        class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Delete</a>
-                                                <a class="dropdown-item" href="printGST_bill.html"><i
-                                                        class="mdi mdi-printer mr-2 text-muted font-18 vertical-middle"></i>
-                                                    Print</a>
+                                                <a class="dropdown-item" href="{{ route('delete', ['gst_bills', 'id' => $bill->id]) }}" onclick="return confirm('Are you sure you want to delete this bill?')"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Delete</a>
+                                                <a class="dropdown-item" href="{{ route('print-gst-bill', ['id' => $bill->id]) }}"><i class="mdi mdi-printer mr-2 text-muted font-18 vertical-middle"></i> Print</a>
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
+                                @endforeach
+                                @else
+                                <tr>
+                                    <td colspan="6" class="text-center">No bills found.</td>
+                                </tr>
+
+                                @endif
                             </tbody>
                         </table>
                     </div><!-- end col -->

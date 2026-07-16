@@ -56,19 +56,19 @@
                                         </b>
                                         <div class="row pl-2 pt-1">
                                             <div class="col-12 d-flex justiy-content-start">
-                                                <label for="">Name : </label>
+                                                <label for="">Name : {{ $bill->party->full_name }}</label>
                                                 <input type="text" style="border: none; line-height: -10;">
                                             </div>
                                         </div>
                                         <div class="row pl-2">
                                             <div class="col-12 d-flex justiy-content-start">
-                                                <label for="">Address : </label>
+                                                <label for="">Address : {{ $bill->party->address }}</label>
                                                 <span></span>
                                             </div>
                                         </div>
                                         <div class="row pl-2">
                                             <div class="col-12 d-flex justiy-content-start">
-                                                <label for="">Phone : </label>
+                                                <label for="">Phone : {{ $bill->party->phone_no }}</label>
                                                 <span></span>
                                             </div>
                                         </div>
@@ -96,13 +96,13 @@
                                         </div>
                                         <div class="row pl-2">
                                             <div class="col-12 d-flex justiy-content-start">
-                                                <label for="">Invoice No : </label>
+                                                <label for="">Invoice No : {{ $bill->invoice_number }}</label>
                                                 <span></span>
                                             </div>
                                         </div>
                                         <div class="row pl-2">
                                             <div class="col-12 d-flex justiy-content-start">
-                                                <label for="">Invoice Date : </label>
+                                                <label for="">Invoice Date : {{ $bill->invoice_date }}</label>
                                                 <span></span>
                                             </div>
                                         </div>
@@ -141,10 +141,9 @@
                                                     <tr>
                                                         <td>1</td>
                                                         <td>
-                                                            <b>Web Design</b> <br />
-                                                            2 Pages static website - my website
+                                                            <b>{{ $bill->item_description }}</b> <br />
                                                         </td>
-                                                        <td class="text-center">$660.00</td>
+                                                        <td class="text-center">${{ number_format($bill->total_amount, 2) }}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -164,18 +163,18 @@
                                     <div class="col-sm-6 col-lg-3 mt-1">
                                         <ul class="list-unstyled">
                                             <li><b>Total :</b> <span class="float-right"><i
-                                                        class="fas fa-rupee-sign"></i> 0.00</span></li>
+                                                        class="fas fa-rupee-sign"></i> {{ number_format($bill->total_amount, 2) }}</span></li>
                                             <li><b>CGST :</b><span class="float-right"><i class="fas fa-rupee-sign"></i>
-                                                    0.00</span></li>
+                                                    {{ number_format($bill->cgst_amount, 2) }}</span></li>
                                             <li><b>SGST :</b><span class="float-right"><i class="fas fa-rupee-sign"></i>
-                                                    0.00</span></li>
+                                                    {{ number_format($bill->sgst_amount, 2) }}</span></li>
                                             <li><b>IGST :</b><span class="float-right"><i class="fas fa-rupee-sign"></i>
-                                                    0.00</span></li>
+                                                    {{ number_format($bill->igst_amount, 2) }}</span></li>
                                             <li><b>Total GST :</b><span class="float-right"><i
-                                                        class="fas fa-rupee-sign"></i> 0.00</span>
+                                                        class="fas fa-rupee-sign"></i> {{ number_format($bill->tax_amount, 2) }}</span>
                                             </li>
                                             <li><b>Grand Total :</b><span class="float-right"><i
-                                                        class="fas fa-rupee-sign"></i> 0.00</span>
+                                                        class="fas fa-rupee-sign"></i> {{ number_format($bill->net_amount, 2) }}</span>
                                             </li>
                                         </ul>
                                         <div class="clearfix"></div>

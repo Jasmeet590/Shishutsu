@@ -24,6 +24,8 @@
                                     <h4 class="header-title text-uppercase">Invoice Basic Info</h4>
                                     <hr>
                                     <form action="{{ route('create-gst-bill') }}" method="post">
+                                        @csrf
+                                        @include('include.alert')
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="form-group mb-3">
@@ -75,32 +77,28 @@
                                                 <input class="form-control" name="item_description" />
                                             </div>
                                             <div class="col-md-4 border p-2">
-                                                <input class="form-control" type="text" name="total_amount" id="totalAmountInput"
-                                                    oninput="calculateNetAmount()">
+                                                <input class="form-control" type="text" name="total_amount" id="totalAmountInput" oninput="calculateNetAmount()">
                                             </div>
                                         </div>
 
                                         <div class="row mt-0">
                                             <div class="col-md-3">
                                                 <label>CGST (%)</label>
-                                                <input type="text" class="form-control border-bottom"
-                                                    placeholder="CGST Rate" id="cgst" oninput="calculateNetAmount()">
+                                                <input type="text" name="cgst_rate" class="form-control border-bottom" placeholder="CGST Rate" id="cgst" oninput="calculateNetAmount()">
                                                 <span class="float-right gststyle" id="cgstDisplay">0</span>
                                                 <input type="hidden" id="cgstAmount" name="cgst_amount" value="0">
                                             </div>
 
                                             <div class="col-md-3">
                                                 <label>SGST (%)</label>
-                                                <input type="text" class="form-control border-bottom"
-                                                    placeholder="SGST Rate" id="sgst" oninput="calculateNetAmount()">
+                                                <input type="text" name="sgst_rate" class="form-control border-bottom" placeholder="SGST Rate" id="sgst" oninput="calculateNetAmount()">
                                                 <span class="float-right gststyle" id="sgstDisplay">0</span>
                                                 <input type="hidden" id="sgstAmount" name="sgst_amount" value="0">
                                             </div>
 
                                             <div class="col-md-3">
                                                 <label>IGST (%)</label>
-                                                <input type="text" class="form-control border-bottom"
-                                                    placeholder="IGST Rate" id="igst" oninput="calculateNetAmount()">
+                                                <input type="text" name="igst_rate" class="form-control border-bottom" placeholder="IGST Rate" id="igst" oninput="calculateNetAmount()">
                                                 <span class="float-right gststyle" id="igstDisplay">0</span>
                                                 <input type="hidden" id="igstAmount" name="igst_amount" value="0">
                                             </div>
@@ -113,8 +111,7 @@
                                                     </li>
                                                     <li>
                                                         <b>Tax:</b> ₹ <span type="text" id="taxDisplay">0</span>
-                                                        <input type="hidden" value="0" name="text_amount"
-                                                            id="taxAmount">
+                                                        <input type="hidden" value="0" name="tax_amount" id="taxAmount">
                                                     </li>
                                                     <li>
                                                         <b>Net Amount:</b> ₹ <span type="text"
