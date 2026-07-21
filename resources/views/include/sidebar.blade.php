@@ -56,6 +56,24 @@
                 </ul>
               </div>
             </li>
+
+           <li>
+              <a href="#sidebarVender" data-toggle="collapse">
+                <i data-feather="package"></i>
+                <span> Vender Invoice </span>
+                <span class="menu-arrow"></span>
+              </a>
+              <div class="collapse" id="sidebarVender">
+                <ul class="nav-second-level">
+                  <li>
+                    <a href="{{ route('add-vender-invoice') }}"><i data-feather="plus" class="pr-0 mr-1"></i>New Vender Invoice</a>
+                  </li>
+                  <li>
+                    <a href="{{ route('manage-vender-invoices') }}"><i data-feather="list" class="pr-0 mr-1"></i>All Vender Invoices</a>
+                  </li>
+                </ul>
+              </div>
+            </li>
           </ul>
         </div>
         <!-- End Sidebar -->

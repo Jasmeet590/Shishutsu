@@ -36,6 +36,14 @@ Route::post('/create-gst-bill', "App\Http\Controllers\GstBillController@createGs
 Route::get('/print-gst-bill/{id}', "App\Http\Controllers\GstBillController@print")->name('print-gst-bill');
 
 
+//Vender invoice routes
+Route::get('/add-vender-invoice', "App\Http\Controllers\VenderController@addVenderInvoice")->name('add-vender-invoice');
+Route::get('/manage-vender-invoices', "App\Http\Controllers\VenderController@index")->name('manage-vender-invoices');
+
+
 
 //soft delete routes
 Route::get('/delete/{table}{id}', "App\Http\Controllers\AppController@delete")->name('delete');
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
