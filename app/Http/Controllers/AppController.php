@@ -36,4 +36,12 @@ class AppController extends Controller
 
         return redirect()->back()->with('success', 'Record deleted successfully.');
     }
+
+    public function test()
+    {
+        $value = session()->all();
+        echo "<pre>";
+        print_r($value);
+        echo "</pre>";
+    }
 }

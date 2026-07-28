@@ -17,33 +17,36 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-#Index page
-Route::get('/', "App\Http\Controllers\AppController@index");
-
-//party routes
-Route::get('/add-party', "App\Http\Controllers\partyController@addParty")->name('add-party');
-Route::post('/create-party', "App\Http\Controllers\partyController@createParty")->name('create-party');
-Route::get('/manage-parties', "App\Http\Controllers\partyController@index")->name('manage-parties');
-Route::get('/edit-party/{id}', "App\Http\Controllers\partyController@editParty")->name('edit-party');
-Route::put('/update-party', "App\Http\Controllers\partyController@updateParty")->name('update-party');
-Route::delete('/delete-party/{id}', "App\Http\Controllers\partyController@deleteParty")->name('delete-party');
-
-
-//GST bill routes
-Route::get('/add-gst-bill', "App\Http\Controllers\GstBillController@addGstBill")->name('add-gst-bill');
-Route::get('/manage-gst-bill', "App\Http\Controllers\GstBillController@index")->name('manage-gst-bill');
-Route::post('/create-gst-bill', "App\Http\Controllers\GstBillController@createGstBill")->name('create-gst-bill');
-Route::get('/print-gst-bill/{id}', "App\Http\Controllers\GstBillController@print")->name('print-gst-bill');
-
-
-//Vender invoice routes
-Route::get('/add-vender-invoice', "App\Http\Controllers\VenderController@addVenderInvoice")->name('add-vender-invoice');
-Route::get('/manage-vender-invoices', "App\Http\Controllers\VenderController@index")->name('manage-vender-invoices');
-
-
-
-//soft delete routes
-Route::get('/delete/{table}{id}', "App\Http\Controllers\AppController@delete")->name('delete');
+//Authentication routes
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::middleware('auth')->group(function () {
+    #Index page
+    Route::get('/', "App\Http\Controllers\AppController@index");
+
+    //party routes
+    Route::get('/add-party', "App\Http\Controllers\partyController@addParty")->name('add-party');
+    Route::post('/create-party', "App\Http\Controllers\partyController@createParty")->name('create-party');
+    Route::get('/manage-parties', "App\Http\Controllers\partyController@index")->name('manage-parties');
+    Route::get('/edit-party/{id}', "App\Http\Controllers\partyController@editParty")->name('edit-party');
+    Route::put('/update-party', "App\Http\Controllers\partyController@updateParty")->name('update-party');
+    Route::delete('/delete-party/{id}', "App\Http\Controllers\partyController@deleteParty")->name('delete-party');
+
+    //GST bill routes
+    Route::get('/add-gst-bill', "App\Http\Controllers\GstBillController@addGstBill")->name('add-gst-bill');
+    Route::get('/manage-gst-bill', "App\Http\Controllers\GstBillController@index")->name('manage-gst-bill');
+    Route::post('/create-gst-bill', "App\Http\Controllers\GstBillController@createGstBill")->name('create-gst-bill');
+    Route::get('/print-gst-bill/{id}', "App\Http\Controllers\GstBillController@print")->name('print-gst-bill');
+
+    //Vender invoice routes
+    Route::get('/add-vender-invoice', "App\Http\Controllers\VenderController@addVenderInvoice")->name('add-vender-invoice');
+    Route::get('/manage-vender-invoices', "App\Http\Controllers\VenderController@index")->name('manage-vender-invoices');
+
+    //soft delete routes
+    Route::get('/delete/{table}{id}', "App\Http\Controllers\AppController@delete")->name('delete');
+
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+});
+
+// test route
+Route::get('/test', "App\Http\Controllers\AppController@test")->name('test');
