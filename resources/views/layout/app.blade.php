@@ -22,6 +22,7 @@
   <link href="{{ asset('assets/css2/icons.min.css') }}" rel="stylesheet" type="text/css" />
 
   <link rel="stylesheet" href="{{ asset('style.css') }}">
+  <link href="{{ asset('assets/css/app-brand.css') }}" rel="stylesheet" type="text/css" />
 
 </head>
 
@@ -51,7 +52,7 @@
               </div>
 
               <!-- item-->
-              <a href="javascript:void(0);" class="dropdown-item notify-item">
+              <a href="{{ route('profile') }}" class="dropdown-item notify-item">
                 <i class="fe-user"></i>
                 <span>{{ Auth::user()->email ?? 'My Account' }}</span>
               </a>
@@ -72,26 +73,11 @@
           </li>
         </ul>
 
-        <!-- LOGO -->
+        <!-- Brand -->
         <div class="logo-box">
-          <a href="{{ url('/') }}" class="logo logo-dark text-center">
-            <span class="logo-sm">
-              <img src="{{ asset('assets/images/logo-sm.png') }}" alt="" height="22" />
-              <!-- <span class="logo-lg-text-light">UBold</span> -->
-            </span>
-            <span class="logo-lg">
-              <img src="{{ asset('assets/images/logo-dark.png') }}" alt="" height="20" />
-              <!-- <span class="logo-lg-text-light">U</span> -->
-            </span>
-          </a>
-
-          <a href="{{ url('/') }}" class="logo logo-light text-center">
-            <span class="logo-sm">
-              <img src="{{ asset('assets/images/logo-sm.png') }}" alt="" height="22" />
-            </span>
-            <span class="logo-lg">
-              <img src="{{ asset('assets/images/logo-light.png') }}" alt="" height="20" />
-            </span>
+          <a href="{{ url('/') }}" class="logo logo-dark text-center app-brand-link">
+            <span class="app-brand-mark">S</span>
+            <span class="app-brand-title">Shishutsu</span>
           </a>
         </div>
 

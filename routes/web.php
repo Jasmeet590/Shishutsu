@@ -24,6 +24,10 @@ Route::middleware('auth')->group(function () {
     #Index page
     Route::get('/', "App\Http\Controllers\AppController@index");
 
+    #profile routes
+    Route::get('/profile', "App\Http\Controllers\AppController@profile")->name('profile');
+    Route::post('/profile', "App\Http\Controllers\AppController@updateProfile")->name('profile.update');
+
     //party routes
     Route::get('/add-party', "App\Http\Controllers\partyController@addParty")->name('add-party');
     Route::post('/create-party', "App\Http\Controllers\partyController@createParty")->name('create-party');

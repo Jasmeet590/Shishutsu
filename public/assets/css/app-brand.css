@@ -1,0 +1,64 @@
+.app-brand-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: #172033;
+  text-decoration: none;
+}
+
+.app-brand-mark {
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: #1abc9c;
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.app-brand-title {
+  margin: 0;
+  color: #172033;
+  font-size: 24px;
+  line-height: 1.15;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+}
+
+.navbar-custom .container-fluid {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.navbar-custom .logo-box {
+  padding: 0;
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+  min-height: 70px;
+  order: 1;
+}
+
+.navbar-custom .topnav-menu-left {
+  order: 2;
+  margin: 0;
+  padding-left: 0;
+}
+
+.navbar-custom .topnav-menu.float-right {
+  order: 3;
+  margin-left: auto;
+  float: none;
+}
+
+.navbar-custom .logo-box .logo {
+  display: flex;
+  align-items: center;
+  height: 70px;
+  padding: 0;
+}
