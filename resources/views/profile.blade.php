@@ -19,8 +19,21 @@
                     <div class="alert alert-success">{{ session('success') }}</div>
                 @endif
 
-                <form method="POST" action="{{ route('profile.update') }}">
+                <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
                     @csrf
+
+                    <div class="form-group">
+                        <label>Profile Picture</label>
+                        <div class="d-flex align-items-center mb-2">
+                            <img src="{{ $user->profile_image ? asset('storage/' . $user->profile_image) : asset('assets/images/users/user-1.jpg') }}"
+                                alt="Profile picture" class="rounded-circle mr-3" width="72" height="72">
+                            <small class="text-muted">Upload JPG, PNG, or WEBP. Max size: 200 KB.</small>
+                        </div>
+                        <input type="file" class="form-control-file @error('profile_image') is-invalid @enderror" name="profile_image" id="profile_image" accept="image/*">
+                        @error('profile_image')
+                            <span class="invalid-feedback d-block" role="alert"><strong>{{ $message }}</strong></span>
+                        @enderror
+                    </div>
 
                     <div class="form-group">
                         <label for="name">Name</label>

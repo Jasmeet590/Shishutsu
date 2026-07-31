@@ -9,7 +9,7 @@
       <div class="h-100" data-simplebar>
         <!-- User box -->
         <div class="user-box text-center">
-          <img src="{{ asset('assets/images/users/user-1.jpg') }}" alt="user-img" title="Mat Helme" class="rounded-circle avatar-md" />
+          <img src="{{ Auth::user()->profile_image ? asset('storage/' . Auth::user()->profile_image) : asset('assets/images/users/user-1.jpg') }}" alt="user-img" title="{{ Auth::user()->name ?? 'User' }}" class="rounded-circle avatar-md" />
           <p class="text-muted mt-2">{{ Auth::user()->name ?? 'User' }} </p>
         </div>
 

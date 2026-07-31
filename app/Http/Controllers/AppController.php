@@ -7,6 +7,7 @@ use App\Models\Party;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class AppController extends Controller
 {
@@ -52,6 +53,7 @@ class AppController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email,' . $user->id],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
+            'profile_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:200'],
         ]);
 
         $user->name = $data['name'];
@@ -59,6 +61,14 @@ class AppController extends Controller
 
         if (!empty($data['password'])) {
             $user->password = Hash::make($data['password']);
+        }
+
+        if ($request->hasFile('profile_image')) {
+            if ($user->profile_image) {
+                Storage::disk('public')->delete($user->profile_image);
+            }
+
+            $user->profile_image = $request->file('profile_image')->store('profile-images', 'public');
         }
 
         $user->save();
