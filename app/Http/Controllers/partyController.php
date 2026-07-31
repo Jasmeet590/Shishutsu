@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Party;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Vaildator;
+use Illuminate\Support\Facades\Auth;
 
 class PartyController extends Controller
 {
@@ -19,7 +18,9 @@ class PartyController extends Controller
         //$parties = Party::all();
 
         //Getting required columns only
-        $parties = Party::select('id', 'party_type', 'full_name', 'phone_no', 'address', 'account_holder_name', 'account_no', 'bank_name', 'ifsc_code', 'branch_address', 'created_at')->get();
+        $parties = Party::ownedBy(Auth::id())
+            ->select('id', 'party_type', 'full_name', 'phone_no', 'address', 'account_holder_name', 'account_no', 'bank_name', 'ifsc_code', 'branch_address', 'created_at')
+            ->get();
 
         return view('party.index', compact('parties'));
     }
@@ -27,6 +28,10 @@ class PartyController extends Controller
      
     public function createParty(Request $request)
     {
+        $request->merge([
+            'user_id' => Auth::id(),
+            'party_type' => strtolower($request->input('party_type')),
+        ]);
 
         $request->validate([
           'full_name'=>'required|string|min:2|max:20',
@@ -39,6 +44,7 @@ class PartyController extends Controller
           'bank_name'=>'required|max:20',
           'ifsc_code'=>'required|max:30',
           'branch_address'=>'required|max:20',
+          'user_id'=>'required|exists:users,id',
 
         ]);
 
@@ -59,13 +65,15 @@ class PartyController extends Controller
 
     public function editParty($id)
     {
-        $data['party'] = Party::find($id);
+        $data['party'] = Party::ownedBy(Auth::id())->findOrFail($id);
         return view('party.edit', $data);
     }
 
 
     public function updateParty(Request $request)
     {
+        $request->merge(['party_type' => strtolower($request->input('party_type'))]);
+
         $request->validate([
             'full_name'=>'required|string|min:2|max:20',
             'party_type'=>'required',
@@ -82,8 +90,9 @@ class PartyController extends Controller
         $formData = $request->all();
         unset($formData['_token']);
         unset($formData['_method']);
+        unset($formData['user_id']);
 
-        $party = Party::find($formData['party_id']);
+        $party = Party::ownedBy(Auth::id())->findOrFail($formData['party_id']);
         $party->update($formData);
 
         return redirect()->route('manage-parties')->with('success', 'Party updated successfully');
@@ -92,7 +101,7 @@ class PartyController extends Controller
 
     public function deleteParty($id)
     {
-        $party = Party::find($id);
+        $party = Party::ownedBy(Auth::id())->find($id);
         if ($party) {
             $party->delete();
             return redirect()->route('manage-parties')->with('success', 'Party deleted successfully');
