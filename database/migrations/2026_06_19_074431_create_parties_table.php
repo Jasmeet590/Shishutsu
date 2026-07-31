@@ -15,7 +15,7 @@ class CreatePartiesTable extends Migration
     {
         Schema::create('parties', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->enum("party_type", ['vendor', 'client', 'employee'])->nullable();
             $table->string("full_name", 100)->nullable();
             $table->string("phone_no", 15)->nullable();

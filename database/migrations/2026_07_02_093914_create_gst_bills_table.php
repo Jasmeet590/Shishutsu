@@ -15,6 +15,7 @@ class CreateGstBillsTable extends Migration
     {
         Schema::create('gst_bills', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->integer("party_id")->nullable();
             $table->date("invoice_date")->nullable();
             $table->string("invoice_number")->unique();

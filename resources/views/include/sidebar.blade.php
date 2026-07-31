@@ -1,10 +1,11 @@
  <!-- ========== Left Sidebar Start ========== -->
     <div class="left-side-menu">
-      <div class="px-3 pt-2 pb-2">
+      <div class="sidebar-toggle-slot">
         <button type="button" class="button-menu-mobile waves-effect waves-light" aria-label="Toggle sidebar">
           <i class="fe-menu"></i>
         </button>
       </div>
+
       <div class="h-100" data-simplebar>
         <!-- User box -->
         <div class="user-box text-center">
