@@ -29,13 +29,10 @@
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="form-group mb-3">
-                                                    <label>Type</label>
-                                                    <select name="party_id" class="form-control border-bottom" id="validationCustom01">
-                                                        <option value="">Please select Type</option>
-                                                      @foreach($parties as $party)
-                                                        <option value="{{ $party->id }}">{{ $party->full_name }}</option>
-                                                      @endforeach
-                                                    </select>
+                                                    <label>Party</label>
+                                                    <input type="text" class="form-control border-bottom" id="partySearch" placeholder="Search party name" autocomplete="off">
+                                                    <input type="hidden" name="party_id" id="partyId" value="">
+                                                    <div id="partySuggestions" class="list-group" style="position:absolute;z-index:10;width:calc(100% - 30px);display:none;"></div>
                                                 </div>
                                             </div>
 
@@ -143,5 +140,53 @@
 
 
                 </div>
+
+        <script>
+            const partySuggestions = document.getElementById('partySuggestions');
+            const partySearch = document.getElementById('partySearch');
+            const partyId = document.getElementById('partyId');
+            const parties = @json($parties->map(function ($party) { return ['id' => $party->id, 'name' => $party->full_name]; }));
+
+            partySearch.addEventListener('input', function () {
+                const query = this.value.toLowerCase().trim();
+                partySuggestions.innerHTML = '';
+
+                if (!query) {
+                    partySuggestions.style.display = 'none';
+                    partyId.value = '';
+                    return;
+                }
+
+                const matches = parties.filter(function (party) {
+                    return party.name.toLowerCase().includes(query);
+                }).slice(0, 8);
+
+                if (!matches.length) {
+                    partySuggestions.style.display = 'none';
+                    partyId.value = '';
+                    return;
+                }
+
+                partySuggestions.style.display = 'block';
+                matches.forEach(function (party) {
+                    const item = document.createElement('button');
+                    item.type = 'button';
+                    item.className = 'list-group-item list-group-item-action';
+                    item.textContent = party.name;
+                    item.addEventListener('click', function () {
+                        partySearch.value = party.name;
+                        partyId.value = party.id;
+                        partySuggestions.style.display = 'none';
+                    });
+                    partySuggestions.appendChild(item);
+                });
+            });
+
+            document.addEventListener('click', function (event) {
+                if (!partySuggestions.contains(event.target) && event.target !== partySearch) {
+                    partySuggestions.style.display = 'none';
+                }
+            });
+        </script>
 
         @endsection
