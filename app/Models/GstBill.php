@@ -14,6 +14,7 @@ class GstBill extends Model
 
     // Fillable columns
     protected $fillable = array(
+        "user_id",
         "party_id",
         "invoice_date",
         "invoice_number",
@@ -34,5 +35,10 @@ class GstBill extends Model
     public function party()
     {
         return $this->belongsTo(Party::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

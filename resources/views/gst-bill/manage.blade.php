@@ -59,7 +59,7 @@
                                 <tr>
                                     <td><b>{{ $index + 1 }}</b></td>
                                     <td>
-                                        {{ "B_".$bill->invoice_number }}
+                                        {{ $bill->invoice_number }}
                                     </td>
 
                                     <td>

@@ -40,7 +40,7 @@
                                                 <div class="form-group mb-3">
                                                     <label>Invoice Date</label>
                                                     <input type="date" name="invoice_date" class="form-control border-bottom"
-                                                        id="validationCustom02" placeholder="Enter Phone/Mobile number">
+                                                        id="validationCustom02" value="{{ date('Y-m-d') }}">
                                                 </div>
                                             </div>
 
@@ -48,7 +48,7 @@
                                                 <div class="form-group mb-3">
                                                     <label>Invoice Number</label>
                                                     <input type="text" name="invoice_number" class="form-control border-bottom"
-                                                        id="validationCustom02" placeholder="Enter Phone/Mobile number">
+                                                        id="validationCustom02" value="{{ $invoiceNumber ?? '' }}" readonly>
                                                 </div>
                                             </div>
                                         </div>
