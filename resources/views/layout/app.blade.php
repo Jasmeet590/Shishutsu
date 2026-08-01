@@ -142,6 +142,8 @@
   <script src="{{ asset('assets/js2/app.min.js') }}"></script>
 
   <script src="{{ asset('assets/script.js') }}"></script>
+  <script src="{{ asset('assets/js/manage-gst-bill.js') }}"></script>
+  <script src="{{ asset('assets/js/gst-bill-party-search.js') }}"></script>
 </body>
 
 </html>

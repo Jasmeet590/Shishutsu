@@ -33,8 +33,13 @@
                             </div>
                             <div class="col-sm-12 col-md-2">
                                 <div id="alternative-page-datatable_filter" class="dataTables_filter">
-                                    <label>Search:<input type="search" class="form-control form-control-sm"
-                                            placeholder="" aria-controls="alternative-page-datatable"></label>
+                                    <label>Search:
+                                        <div class="position-relative">
+                                            <input type="search" class="form-control form-control-sm" id="billSearch"
+                                                placeholder="Search bill or party" autocomplete="off" aria-controls="alternative-page-datatable">
+                                            <div id="billSuggestions" class="list-group" style="position:absolute;z-index:10;width:100%;display:none;max-height:240px;overflow-y:auto;"></div>
+                                        </div>
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -56,14 +61,14 @@
                             <tbody>
                                 @if(count($bills))
                                 @foreach($bills as $index=>$bill)
-                                <tr>
+                                <tr data-search="{{ strtolower($bill->invoice_number . ' ' . optional($bill->party)->full_name) }}">
                                     <td><b>{{ $index + 1 }}</b></td>
                                     <td>
                                         {{ $bill->invoice_number }}
                                     </td>
 
                                     <td>
-                                        {{ $bill->party->full_name }}
+                                        {{ optional($bill->party)->full_name }}
                                     </td>
 
                                     <td>
@@ -197,6 +202,18 @@
                     </div>
                 </div>
             </div>
-        
+        @php
+            $gstBillSearchData = $bills->map(function ($bill) {
+                return [
+                    'id' => $bill->id,
+                    'invoice_number' => $bill->invoice_number,
+                    'party_name' => optional($bill->party)->full_name ?? '',
+                    'label' => $bill->invoice_number . ' - ' . (optional($bill->party)->full_name ?? ''),
+                ];
+            })->values()->all();
+        @endphp
+        <script>
+            window.gstBillSearchData = @json($gstBillSearchData);
+        </script>
 
 @endsection
