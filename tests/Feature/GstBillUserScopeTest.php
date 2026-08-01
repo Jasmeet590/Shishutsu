@@ -108,4 +108,77 @@ class GstBillUserScopeTest extends TestCase
         $response->assertSee('Owner Party');
         $response->assertDontSee('Other User Party');
     }
+
+    public function test_other_user_cannot_access_another_users_gst_bill_via_view_or_delete()
+    {
+        $owner = User::factory()->create();
+        $otherUser = User::factory()->create();
+
+        $party = Party::create([
+            'user_id' => $owner->id,
+            'party_type' => 'client',
+            'full_name' => 'Owner Party',
+            'phone_no' => '9876543210',
+            'address' => '123 Street',
+            'account_holder_name' => 'Owner Party',
+            'account_no' => '1234567890',
+            'bank_name' => 'Test Bank',
+            'ifsc_code' => 'TEST1234',
+            'branch_address' => 'Main Branch',
+        ]);
+
+        $bill = GstBill::create([
+            'user_id' => $owner->id,
+            'party_id' => $party->id,
+            'invoice_date' => '2026-08-01',
+            'invoice_number' => 'INV-SEC-0001',
+            'item_description' => 'Secure item',
+            'total_amount' => 100,
+            'tax_amount' => 18,
+            'net_amount' => 118,
+        ]);
+
+        $response = $this->actingAs($otherUser)->get(route('print-gst-bill', ['id' => $bill->id]));
+        $response->assertNotFound();
+
+        $deleteResponse = $this->actingAs($otherUser)->get(route('delete', ['gst_bills', 'id' => $bill->id]));
+        $deleteResponse->assertRedirect();
+        $this->assertDatabaseHas('gst_bills', ['id' => $bill->id, 'is_deleted' => 0]);
+    }
+
+    public function test_manage_page_does_not_expose_other_users_bill_data_to_browser_javascript()
+    {
+        $owner = User::factory()->create();
+        $otherUser = User::factory()->create();
+
+        $party = Party::create([
+            'user_id' => $owner->id,
+            'party_type' => 'client',
+            'full_name' => 'Owner Party',
+            'phone_no' => '9876543210',
+            'address' => '123 Street',
+            'account_holder_name' => 'Owner Party',
+            'account_no' => '1234567890',
+            'bank_name' => 'Test Bank',
+            'ifsc_code' => 'TEST1234',
+            'branch_address' => 'Main Branch',
+        ]);
+
+        GstBill::create([
+            'user_id' => $owner->id,
+            'party_id' => $party->id,
+            'invoice_date' => '2026-08-01',
+            'invoice_number' => 'INV-PRIVATE-0001',
+            'item_description' => 'Private item',
+            'total_amount' => 100,
+            'tax_amount' => 18,
+            'net_amount' => 118,
+        ]);
+
+        $response = $this->actingAs($otherUser)->get('/manage-gst-bill');
+
+        $response->assertStatus(200);
+        $response->assertDontSee('INV-PRIVATE-0001');
+        $response->assertDontSee('Private item');
+    }
 }

@@ -28,16 +28,27 @@ class AppController extends Controller
 
     public function delete($table, $id)
     {
-        // Validate the table name to prevent SQL injection
-        $allowedTables = ['parties', 'gst_bills']; // Add more allowed table names as needed
+        $allowedTables = ['parties', 'gst_bills'];
         if (!in_array($table, $allowedTables)) {
-            abort(404); // Return a 404 error if the table is not allowed
+            abort(404);
         }
 
-        // Perform the soft delete operation
-        DB::table($table)->where('id', $id)->update(['is_deleted' => 1]);
+        $userId = Auth::id();
+        $query = DB::table($table)->where('id', $id);
 
-        return redirect()->back()->with('success', 'Record deleted successfully.');
+        if ($table === 'parties') {
+            $query->where('user_id', $userId);
+        } elseif ($table === 'gst_bills') {
+            $query->where('user_id', $userId);
+        }
+
+        $updated = $query->update(['is_deleted' => 1]);
+
+        if ($updated) {
+            return redirect()->back()->with('success', 'Record deleted successfully.');
+        }
+
+        return redirect()->back()->with('error', 'Record not found or access denied.');
     }
 
     public function profile()

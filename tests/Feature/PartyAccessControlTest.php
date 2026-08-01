@@ -55,4 +55,37 @@ class PartyAccessControlTest extends TestCase
         $response->assertNotFound();
         $this->assertDatabaseHas('parties', ['id' => $party->id, 'full_name' => 'Alice']);
     }
+
+    public function test_other_user_cannot_view_or_delete_another_users_party()
+    {
+        $owner = User::factory()->create();
+        $otherUser = User::factory()->create();
+
+        $party = Party::create([
+            'user_id' => $owner->id,
+            'party_type' => 'client',
+            'full_name' => 'Secure Party',
+            'phone_no' => '9876543210',
+            'address' => '123 Street',
+            'account_holder_name' => 'Secure Party',
+            'account_no' => '1234567890',
+            'bank_name' => 'Test Bank',
+            'ifsc_code' => 'TEST1234',
+            'branch_address' => 'Main Branch',
+        ]);
+
+        $this->actingAs($otherUser)
+            ->get('/manage-parties')
+            ->assertStatus(200)
+            ->assertDontSee('Secure Party');
+
+        $this->actingAs($otherUser)
+            ->get('/edit-party/' . $party->id)
+            ->assertNotFound();
+
+        $response = $this->actingAs($otherUser)->get(route('delete', ['parties', 'id' => $party->id]));
+
+        $response->assertRedirect();
+        $this->assertDatabaseHas('parties', ['id' => $party->id, 'is_deleted' => 0]);
+    }
 }
