@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Models\GstBill;
 use App\Models\Party;
 use App\Models\User;
-use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
 
 class GstBillUserScopeTest extends TestCase
@@ -13,13 +12,6 @@ class GstBillUserScopeTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-
-        config([
-            'database.default' => 'sqlite',
-            'database.connections.sqlite.database' => ':memory:',
-        ]);
-
-        Artisan::call('migrate:fresh');
     }
 
     public function test_users_only_see_their_own_gst_bills_and_create_with_their_user_id()
@@ -180,5 +172,56 @@ class GstBillUserScopeTest extends TestCase
         $response->assertStatus(200);
         $response->assertDontSee('INV-PRIVATE-0001');
         $response->assertDontSee('Private item');
+    }
+
+    public function test_gst_bill_creation_requires_valid_party_and_amounts()
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->post('/create-gst-bill', [
+            'party_id' => 999,
+            'invoice_date' => '2026-08-02',
+            'item_description' => 'Bad bill',
+            'total_amount' => -10,
+            'tax_amount' => -1,
+            'net_amount' => -11,
+        ]);
+
+        $response->assertSessionHasErrors(['party_id', 'total_amount', 'tax_amount', 'net_amount']);
+    }
+
+    public function test_invalid_delete_request_does_not_soft_delete_unowned_gst_bill()
+    {
+        $owner = User::factory()->create();
+        $otherUser = User::factory()->create();
+
+        $party = Party::create([
+            'user_id' => $owner->id,
+            'party_type' => 'client',
+            'full_name' => 'Owner Party',
+            'phone_no' => '9876543210',
+            'address' => '123 Street',
+            'account_holder_name' => 'Owner Party',
+            'account_no' => '1234567890',
+            'bank_name' => 'Test Bank',
+            'ifsc_code' => 'TEST1234',
+            'branch_address' => 'Main Branch',
+        ]);
+
+        $bill = GstBill::create([
+            'user_id' => $owner->id,
+            'party_id' => $party->id,
+            'invoice_date' => '2026-08-01',
+            'invoice_number' => 'INV-INVALID-0001',
+            'item_description' => 'Protected item',
+            'total_amount' => 100,
+            'tax_amount' => 18,
+            'net_amount' => 118,
+        ]);
+
+        $this->actingAs($otherUser)->get(route('delete', ['gst_bills', 'id' => $bill->id]))
+            ->assertRedirect();
+
+        $this->assertDatabaseHas('gst_bills', ['id' => $bill->id, 'is_deleted' => 0]);
     }
 }

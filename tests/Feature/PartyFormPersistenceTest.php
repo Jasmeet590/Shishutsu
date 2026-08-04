@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
 
 class PartyFormPersistenceTest extends TestCase
@@ -11,13 +10,6 @@ class PartyFormPersistenceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-
-        config([
-            'database.default' => 'sqlite',
-            'database.connections.sqlite.database' => ':memory:',
-        ]);
-
-        Artisan::call('migrate:fresh');
     }
 
     public function test_failed_party_submission_keeps_form_values()
