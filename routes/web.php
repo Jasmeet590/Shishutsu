@@ -28,6 +28,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', "App\Http\Controllers\AppController@profile")->name('profile');
     Route::post('/profile', "App\Http\Controllers\AppController@updateProfile")->name('profile.update');
 
+    #Subscriptions routes
+    Route::get('/subscription', "App\Http\Controllers\SubscriptionController@index")->name('subscription');
+    Route::post('/subscription', "App\Http\Controllers\SubscriptionController@subscribe")->name('subscribe');
+
     //party routes
     Route::get('/add-party', "App\Http\Controllers\partyController@addParty")->name('add-party');
     Route::post('/create-party', "App\Http\Controllers\partyController@createParty")->name('create-party');

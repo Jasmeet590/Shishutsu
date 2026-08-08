@@ -57,6 +57,11 @@
                 <span>{{ Auth::user()->email ?? 'My Account' }}</span>
               </a>
 
+              <a href="{{ route('subscription') }}" class="dropdown-item notify-item">
+                <i class="fe-credit-card"></i>
+                <span>Subscription</span>
+              </a>
+
               <div class="dropdown-divider"></div>
 
               <!-- item-->
