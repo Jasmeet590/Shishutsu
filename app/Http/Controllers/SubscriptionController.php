@@ -22,7 +22,9 @@ class SubscriptionController extends Controller
 
     public function subscribe(Request $request)
     {
-        $planId = $request->input('subscription');
+        if (!$request->has('plan_id')) {
+            return redirect()->back()->with('error', 'Please select a subscription plan.');
+        }
         // Here you can handle the subscription logic, e.g., save the selected plan to the database or process payment.
         // For demonstration purposes, we'll just return a success message.
         echo print_r($request->all(), true);

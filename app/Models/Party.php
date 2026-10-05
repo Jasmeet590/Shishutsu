@@ -14,7 +14,7 @@ class Party extends Model
    protected $primaryKey = "id";
 
    // fillable fields
-   protected $fillable = array('party_type', 'user_id', 'full_name', 'phone_no', 'address', 'account_holder_name', 'account_no', 'bank_name', 'ifsc_code', 'branch_address');
+   protected $fillable = array('party_type', 'user_id', 'full_name', 'phone_no', 'email', 'address', 'account_holder_name', 'account_no', 'bank_name', 'ifsc_code', 'branch_address');
 
    public function user()
    {

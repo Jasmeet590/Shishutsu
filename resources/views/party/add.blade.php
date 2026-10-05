@@ -55,10 +55,16 @@
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-md-12">
+                                            <div class="col-md-6">
                                                 <div class="form-group mb-3">
                                                     <label for="validationCustom03">Address</label>
-                                                    <input type="text" name="address" class="form-control border-bottom " id="validationCustom02" placeholder="Enter Address" value="{{ old('address') }}">
+                                                    <input type="text" name="address" class="form-control border-bottom " id="validationCustom03" placeholder="Enter Address" value="{{ old('address') }}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label for="validationCustom04">Email</label>
+                                                    <input type="email" name="email" class="form-control border-bottom " id="validationCustom04" placeholder="Enter Email" value="{{ old('email') }}">
                                                 </div>
                                             </div>
                                         </div>

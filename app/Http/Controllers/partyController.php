@@ -38,7 +38,7 @@ class PartyController extends Controller
           'party_type'=>'required',
           'phone_no'=>'required|regex:/^[0-9]{10}$/',
           'address'=>'required|max:255',
-
+          'email'=>'nullable|email|max:255',
           'account_holder_name'=>'required|min:2|max:20',
           'account_no'=>'required|numeric',
           'bank_name'=>'required|max:20',
@@ -78,6 +78,7 @@ class PartyController extends Controller
             'full_name'=>'required|string|min:2|max:20',
             'party_type'=>'required',
             'phone_no'=>'required|regex:/^[0-9]{10}$/',
+            'email'=>'nullable|email|max:255',
             'address'=>'required|max:255',
             'account_holder_name'=>'required|min:2|max:20',
             'account_no'=>'required|numeric',

@@ -25,7 +25,7 @@
                     <div class="card-body">
                       <div class="d-flex justify-content-between align-items-start mb-3">
                         <h5 class="mb-0">{{ $plan->name }}</h5>
-                        <input class="plan-radio" type="radio" name="subscription_plan[]" value="{{ $plan->slug }}" {{ $index === 0 ? 'checked' : '' }}>
+                        <input class="plan-radio" type="radio" name="plan_id" value="{{ $plan->id }}" {{ $index === 0 ? 'checked' : '' }}>
                       </div>
 
                       <div class="d-flex align-items-baseline flex-wrap mb-1">
