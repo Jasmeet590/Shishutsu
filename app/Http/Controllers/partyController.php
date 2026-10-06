@@ -19,7 +19,7 @@ class PartyController extends Controller
 
         //Getting required columns only
         $parties = Party::ownedBy(Auth::id())
-            ->select('id', 'party_type', 'full_name', 'phone_no', 'address', 'account_holder_name', 'account_no', 'bank_name', 'ifsc_code', 'branch_address', 'created_at')
+            ->select('id', 'party_type', 'full_name', 'phone_no', 'email', 'address', 'account_holder_name', 'account_no', 'bank_name', 'ifsc_code', 'branch_address', 'created_at')
             ->get();
 
         return view('party.index', compact('parties'));

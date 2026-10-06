@@ -73,6 +73,7 @@
                                         <ul class="list-unstyled">
                                             <li><b>Name :</b> <span> {{ $party->full_name }}</span></li>
                                             <li><b>Phone :</b><span> {{ $party->phone_no }}</span></li>
+                                             <li><b>Email :</b><span> {{ $party->email }}</span></li>
                                         </ul>
                                     </td>
 
