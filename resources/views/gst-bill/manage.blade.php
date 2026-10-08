@@ -91,6 +91,11 @@
                                             <div class="dropdown-menu dropdown-menu-right">
                                                 <a class="dropdown-item" href="{{ route('delete', ['gst_bills', 'id' => $bill->id]) }}" onclick="return confirm('Are you sure you want to delete this bill?')"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Delete</a>
                                                 <a class="dropdown-item" href="{{ route('print-gst-bill', ['id' => $bill->id]) }}"><i class="mdi mdi-printer mr-2 text-muted font-18 vertical-middle"></i> Print</a>
+                                                @if(optional($bill->party)->email)
+                                                <a class="dropdown-item" href="mailto:{{ $bill->party->email }}?subject={{ rawurlencode('GST Bill ' . $bill->invoice_number) }}"><i class="mdi mdi-email mr-2 text-muted font-18 vertical-middle"></i> Mail</a>
+                                                @else
+                                                <span class="dropdown-item text-muted"><i class="mdi mdi-email mr-2 font-18 vertical-middle"></i> Mail unavailable</span>
+                                                @endif
                                             </div>
                                         </div>
                                     </td>
